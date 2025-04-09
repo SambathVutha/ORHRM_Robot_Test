@@ -1,0 +1,126 @@
+=======================================
+How To Use XPath in Selenium: Complete Guide With Examples
+=======================================
+
+The basic format of XPath in Selenium is explained below.
+	- XPath = //tagname[@Attribute=’Value’]
+. //: denotes the current node
+. tagname: denotes the tag name of the current node
+. @: denotes the Select attribute
+. Attribute: denotes the attribute of the node
+. Value: denotes the value of the chosen attribute
+
+Types of XPath in Selenium
+1. Absolute XPath
+e.g.
+- /html//div/div/div/div/div/div/div/img 
+2. Relative XPath
+e.g.
+- //img[@alt='LambdaTest']
+
+
+XPath using contains()
+The syntax for using the contains() method in XPath is:
+- //tagname[contains(@attribute,constantvalue)]
+- //tagname[contains(@attribute,”signin”)]
+- //button[contains(@class,'justify-center')]
+
+XPath using logical operators ( OR & AND )
+
++ Logical operators	Syntax
+
+- OR 					XPath=//tagname[@attribute1=value1 OR @attribute2=value1]
+e.g.
+
+- //input[@name="email" or contains(@placeholder,’abc’)] 
+ 
+- AND					XPath=//tagname[@attribute1=value1 AND @attribute2=value1]
+e.g.
+- //input[@name="email" and contains(@placeholder,'Email')] 
+
+
+XPath using text()
+The syntax for using text() in XPath is:
+- //tagname[text()=’Text of the WebElement’]
+e.g.
+ //span[text()='Sign up with Google'] 
+
+
+XPath using starts-with()
+Below is the syntax for using the starts-with() method:
+- //tagname[starts-with(@attribute,value)]
+e.g.
+- //input[starts-with(@placeholder,'Desired')]
+
+
+XPath using Index
+The syntax for using the index in XPath is:
+- //tagname[@attribute=’value’][Index Number]
+e.g.
+- //input[contains(@class,'customPlaceholder')]
+
+Chained XPath in Selenium
+The syntax for using chained XPath is as mentioned below.
+- //tagname1[@attribute1=value1]//tagname2[@attribute2=value2] 
+e.g.
+- //div[contains(@class,'signUpWithEmail')]//input[@id='email']
+
+
+XPath using the following
+The syntax for using the following is.
+- //tagname[@attribute=’value’]//following::tagname
+e.g.
+//form[contains(@class,'form')]//following::div//input[@id='userpassword']
+
+XPath using following-sibling
+The syntax for using following-sibling is.
+
+- //tagname[@attribute=’value’]//following-sibiling::tagname 
+e.g.
+- (//div[contains(@class,'custom__border')]//following-sibling::div)[1]
+
+XPath using preceding
+The syntax for utilizing the preceding axes is as follows:
+- //tagname[@attribute=’value’]//preceding::tagname
+e.g.
+-  //button[@data-testid='signup-button']//preceding::input[@type='password']
+
+
+XPath using preceding-sibling
+The syntax for using preceding-sibling is as follows:
+- //tagname[@attribute=’value’]//preceding-sibling::tagname
+e.g.
+- //div[contains(@class,'custom__border')]//preceding-sibling::div
+
+XPath using child
+The syntax for using the child axes is.
+- //tagname[@attribute=’value’]//child::tagname
+e.g.
+- //div[@aria-labelledby='sign_up_with_google_label']//child::span
+
+
+XPath using parent
+The syntax for using the parent axes is.
+- //tagname[@attribute=’value’]/parent::tagname
+e.g.
+- //button[@data-testid='signup-button']//parent::div//preceding-sibling::div//input[@type='password']
+
+
+XPath using descendant
+The syntax for using descendant is.
+- //tagname[@attribute=’value’]//descendant::tagname
+e.g.
+- //div[contains(@class,'overflow-hidden')]//descendant::span
+
+
+XPath using ancestor
+The syntax for using the ancestor axes is.
+- //tagname[@attribute=’value’]//ancestors::tagname
+e.g.
+- //input[@type='password']//ancestor::div//input[@id='email']
+
+How to create a dynamic XPath in Selenium
+The syntax for dynamic XPath is.
+- //*[@attribute='value']
+e.g.
+- //*[@id=’email']

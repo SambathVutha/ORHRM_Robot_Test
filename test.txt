@@ -1,0 +1,192 @@
+# *** Settings ***
+# Library           SeleniumLibrary
+# Library           ../Library/SaveToFile.py
+# Library           ../.venv/Lib/site-packages/robot/libraries/Collections.py
+# Resource          ../Resources/keyword/admin.resource
+
+# *** Variables ***
+# ${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+# ${USERNAME}       Admin
+# ${PASSWORD}       admin123
+
+# *** Test Cases ***
+# Login And Scrape Users
+#     Open Browser    ${URL}    chrome
+#     Set Selenium Speed    0.5
+#     Wait Until Element Is Visible    name=username    timeout=5
+#     Input Text    name=username    ${USERNAME}
+#     Input Text    name=password    ${PASSWORD}
+#     Click Button    xpath=//button[@type='submit']
+#     Wait Until Page Contains Element    xpath=//span[text()='Admin']
+#     Click Element    xpath=//span[text()='Admin']
+#     Wait Until Page Contains Element    xpath=//h5[text()='System Users']
+
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_data}=    Create List
+#     FOR    ${row}    IN    @{rows}
+#        ${cells}=    Get WebElements    xpath=.//div[@role='cell']
+#        ${cell_texts}=    Create List
+#        FOR    ${cell}    IN    @{cells}
+#           ${text}=    Get Text    ${cell}
+#           Append To List    ${cell_texts}    ${text}
+#        END
+#        Run Keyword If    ${cell_texts}    Append To List    ${user_data}    ${cell_texts}
+#     END
+
+#     Log    ${user_data}
+#     Save Data To CSV    ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.csv
+#     Save Data To JSON   ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.json
+#     Close Browser
+
+
+# *** Settings ***
+# Library           SeleniumLibrary
+# Library           ../Library/SaveToFile.py
+# Library           ../.venv/Lib/site-packages/robot/libraries/Collections.py
+# Resource          ../Resources/keyword/admin.resource
+
+# *** Variables ***
+# ${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+# ${USERNAME}       Admin
+# ${PASSWORD}       admin123
+
+# *** Test Cases ***
+# Login And Scrape Users
+#     Open Browser    ${URL}    chrome
+#     Wait Until Element Is Visible    name=username    timeout=3
+#     Input Text    name=username    ${USERNAME}
+#     Input Text    name=password    ${PASSWORD}
+#     Click Button    xpath=//button[@type='submit']
+#     Wait Until Page Contains Element    xpath=//span[text()='Admin']    timeout=5
+#     Click Element    xpath=//span[text()='Admin']
+#     Wait Until Page Contains Element    xpath=//h5[text()='System Users']    timeout=5
+
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_data}=    Create List
+
+#     FOR    ${row}    IN    @{rows}
+#         ${cells}=    Get WebElements    xpath=./div[@role='cell']
+#         ${cell_texts}=    Create List
+#         FOR    ${cell}    IN    @{cells}
+#             ${text}=    Get Text    ${cell}
+#             Append To List    ${cell_texts}    ${text}
+#         END
+#         Run Keyword If    ${cell_texts}    Append To List    ${user_data}    ${cell_texts}
+#     END
+
+#     Log    ${user_data}
+#     Save Data To CSV    ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.csv
+#     Save Data To JSON   ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.json
+#     Close Browser
+
+
+# *** Settings ***
+# Library           SeleniumLibrary
+# Library           ../Library/SaveToFile.py
+# Library           Collections
+# Resource          ../Resources/keyword/admin.resource
+
+# *** Variables ***
+# ${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+# ${USERNAME}       Admin
+# ${PASSWORD}       admin123
+
+# *** Test Cases ***
+# Login And Scrape Users
+#     Open Browser    ${URL}    chrome
+#     Set Selenium Speed    0.3
+#     Wait Until Element Is Visible    name=username    timeout=3
+#     Input Text    name=username    ${USERNAME}
+#     Input Text    name=password    ${PASSWORD}
+#     Click Button    xpath=//button[@type='submit']
+#     Wait Until Page Contains Element    xpath=//span[text()='Admin']    timeout=5
+#     Click Element    xpath=//span[text()='Admin']
+#     Wait Until Page Contains Element    xpath=//h5[text()='System Users']    timeout=5
+
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_data}=    Create List
+
+#     # FOR    ${row}    IN    @{rows}
+#     #     # ${cells}=    Get WebElements    xpath=.//div[@role='cell']    parent=${row}
+#     #     ${cells}=    Execute Javascript    return arguments[0].querySelectorAll("div[role='cell']");    ${row}
+#     #     ${cell_texts}=    Create List
+#     #     FOR    ${cell}    IN    @{cells}
+#     #         ${text}=    Get Text    ${cell}
+#     #         Append To List    ${cell_texts}    ${text}
+#     #     END
+#     #     Append To List    ${user_data}    ${cell_texts}
+#     # END
+#     # FOR    ${row}    IN    @{rows}
+#     #     ${cells}=    Execute Javascript    return Array.from(arguments[0].querySelectorAll("div[role='cell']")).map(cell => cell.innerText);    ${row}
+#     #     Append To List    ${user_data}    ${cells}
+#     # END
+
+#     FOR    ${row}    IN    @{rows}
+#         ${cells}=    Execute Javascript    return arguments[0].querySelectorAll("div[role='cell']");    ${row}
+#         ${cell_texts}=    Create List
+#         FOR    ${cell}    IN    @{cells}
+#             ${text}=    Get Text    ${cell}
+#             Append To List    ${cell_texts}    ${text}
+#         END
+#         Append To List    ${user_data}    ${cell_texts}
+#     END
+
+
+#     Log    ${user_data}
+#     Save Data To CSV    ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.csv
+#     Save Data To JSON   ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.json
+#     Close Browser
+
+
+
+
+*** Settings ***
+Library           SeleniumLibrary
+Library           ../Library/SaveToFile.py
+Library    ../.venv/Lib/site-packages/robot/libraries/Collections.py
+
+*** Variables ***
+${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+${USERNAME}       Admin
+${PASSWORD}       admin123
+${SCREENSHOT_ON_FAILURE}    False
+
+*** Test Cases ***
+Login And Scrape Users
+    Open Browser    ${URL}    chrome
+    # Maximize Browser Window
+    # Set Selenium Speed    0.3
+    Wait Until Element Is Visible    name=username    timeout=3
+    Input Text    name=username    ${USERNAME}
+    Input Text    name=password    ${PASSWORD}
+    Click Button    xpath=//button[@type='submit']
+    Wait Until Page Contains Element    xpath=//span[text()='Admin']    timeout=5
+    Click Element    xpath=//span[text()='Admin']
+    Wait Until Page Contains Element    xpath=//h5[text()='System Users']    timeout=5
+
+    # # Optional: Scroll or interact with the table
+    # ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+    # FOR    ${row}    IN    @{rows}
+    #     ${text}=    Get Text    ${row}
+    #     Log    ${text}
+    # END
+    # Close Browser
+    ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+    # ${rows}=    Wait Until Element Is Visible    xpath=//div[@class='oxd-table-body']//div[@role='row']    timeout=10
+
+    ${user_data}=    Create List
+   FOR    ${row}    IN    @{rows}
+        ${cells}=    Execute Javascript    return arguments[0].querySelectorAll('div[role="cell"]');    ${row}
+        ${cell_texts}=    Create List
+        FOR    ${cell}    IN    @{cells}
+            ${text}=    Get Text    ${cell}
+            Log To Console    call text: ${text}
+            Append To List    ${cell_texts}    ${text}
+        END
+        # Run Keyword If    ${cell_texts}    Append To List    ${user_data}    ${cell_texts}
+        Append To List    ${user_data}    ${cell_texts}
+    END
+    Log    ${user_data}
+    # Save Data To CSV    ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.csv
+    Save Data To JSON   ${user_data}    orangehrm_users.json
+    Close Browser

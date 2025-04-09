@@ -1,0 +1,22 @@
+===========================================================
+cmd run robot
+===========================================================
+- robot -d results Tests/auth/Valid_login.robot
+# -d results will save the reports in the results folder.
+# robot keyword is used to execute the robot framework tests.
+
+
+- Focus CTRL + Shift + p
+
+
+
+===========================
+Install robot
+===========================
+cd C:\projects
+mkdir MyProject
+cd MyProject
+python -m venv .venv
+.venv\Scripts\activate.bat
+pip install robotframework
+robot --version
