@@ -1,0 +1,34 @@
+[
+    {
+        "": "",
+        "Username": "Admin",
+        "User Role": "Admin",
+        "Employee Name": "manda user",
+        "Status": "Enabled",
+        "Actions": ""
+    },
+    {
+        "": "",
+        "Username": "FMLName",
+        "User Role": "ESS",
+        "Employee Name": "Qwerty LName",
+        "Status": "Enabled",
+        "Actions": ""
+    },
+    {
+        "": "",
+        "Username": "FMLName1",
+        "User Role": "ESS",
+        "Employee Name": "FName LName",
+        "Status": "Enabled",
+        "Actions": ""
+    },
+    {
+        "": "",
+        "Username": "Jobinsam@6742",
+        "User Role": "ESS",
+        "Employee Name": "Jobin Sam",
+        "Status": "Enabled",
+        "Actions": ""
+    }
+]

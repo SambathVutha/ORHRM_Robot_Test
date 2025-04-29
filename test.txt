@@ -190,3 +190,498 @@ Login And Scrape Users
     # Save Data To CSV    ${user_data}    ${EXECDIR}/Resources/download/orangehrm_users.csv
     Save Data To JSON   ${user_data}    orangehrm_users.json
     Close Browser
+
+
+
+
+
+
+Get list data from table
+=======================================
+# *** Settings ***
+# Resource    ../../Resources/keyword/login_application.resource
+# Resource    ../../Resources/keyword/access_navigation.resource
+# Resource    ../../Resources/keyword/employee.resource
+# Suite Setup    Start Application
+# Suite Teardown    Close Application
+# Library    ../../.venv/Lib/site-packages/robot/libraries/String.py
+
+
+# *** Variables ***
+
+
+# *** Test Cases ***
+# List Users
+#     Validate Login Page
+#     Get List Users to CSV
+#     Logout Application
+#     Close Application
+
+
+# *** Keywords ***
+# Get List Users to CSV
+#     # Set Selenium Speed    0.5
+#     PIM Navigation
+#     Get list users
+
+*** Settings ***
+Library    SeleniumLibrary
+Library    Collections
+Library    OperatingSystem
+Resource    ../../Resources/keyword/employee.resource
+# Library    JSONLibrary
+
+*** Variables ***
+${BROWSER}        Chrome
+${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+${USERNAME}       Admin
+${PASSWORD}       admin123
+
+*** Test Cases ***
+Get List of Users from OrangeHRM
+    Open Browser To Login Page
+    Login To OrangeHRM
+    PIM Navigation
+    ${user_data}=    Get User Table Data
+    # Save Data To JSON    ${user_data}    ${EXECDIR}/Resources/download/Employee_list_users.json
+    [Teardown]    Close Browser
+
+*** Keywords ***
+Open Browser To Login Page
+    Open Browser    ${URL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Implicit Wait    5
+
+Login To OrangeHRM
+    Input Text    name=username    ${USERNAME}
+    Input Text    name=password    ${PASSWORD}
+    Click Button    css=button.orangehrm-login-button
+    Wait Until Page Contains Element    css=.oxd-userdropdown-name    timeout=10
+
+
+Get User Table Data
+    Wait Until Element Is Enabled    xpath=//div[@class='oxd-table-body']    timeout=5
+    ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+    ${user_data}=    Create List
+    
+    FOR    ${row}    IN    @{rows}
+        ${cells}=    Get WebElements    xpath=.//div[@role='cell']
+        ${cell_texts}=    Create List
+        
+        FOR    ${cell}    IN    @{cells}
+            ${text}=    Get Text    ${cell}
+            Append To List    ${cell_texts}    ${text}
+        END
+        
+        Append To List    ${user_data}    ${cell_texts}
+    END
+    
+    Log    ${user_data}
+    Save Data To JSON    ${user_data}    ${EXECDIR}/Resources/download/Employee_list_users.json
+
+# Save Data To JSON
+#     [Arguments]    ${data}    ${file_path}
+#     ${json_data}=    Convert JSON To String    ${data}
+#     Create Directory    ${EXECDIR}/Resources/download
+#     Create File    ${file_path}    ${json_data}
+#     Log    Saved user data to ${file_path}
+
+
+# Get List Users to CSV
+#     # Set Selenium Speed    0.5
+#     PIM Navigation
+#     Get User Table Data
+    
+
+
+
+# *** Settings ***
+# Library    SeleniumLibrary
+# Library    Collections
+# Library    OperatingSystem
+# Resource    ../../Resources/keyword/employee.resource
+# # Library    JSONLibrary
+
+# *** Variables ***
+# ${BROWSER}        Chrome
+# ${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+# ${USERNAME}       Admin
+# ${PASSWORD}       admin123
+
+# *** Test Cases ***
+# Get List of Users from OrangeHRM
+#     Open Browser To Login Page
+#     Login To OrangeHRM
+#     PIM Navigation
+#     ${user_data}=    Get User Table Data
+#     # Save Data To JSON    ${user_data}    ${EXECDIR}/Resources/download/Employee_list_users.json
+#     [Teardown]    Close Browser
+
+# *** Keywords ***
+# Open Browser To Login Page
+#     Open Browser    ${URL}    ${BROWSER}
+#     Maximize Browser Window
+#     Set Selenium Implicit Wait    5
+
+# Login To OrangeHRM
+#     Input Text    name=username    ${USERNAME}
+#     Input Text    name=password    ${PASSWORD}
+#     Click Button    css=button.orangehrm-login-button
+#     Wait Until Page Contains Element    css=.oxd-userdropdown-name    timeout=10
+
+
+# Filter My Job Titles From JSON
+*** Settings ***
+Library    Collections
+Library    OperatingSystem
+Library    JSONLibrary
+
+
+*** Variables ***
+${INPUT_FILE}     ${EXECDIR}/Resources/download/Job_Title.json
+${OUTPUT_FILE}    ${EXECDIR}/Resources/download/My_Job_Title.json
+@{MY_TITLES}      QA Engineer
+
+*** Test Cases ***
+Filter My Job Titles From JSON
+    ${json}=    Load Json From File    ${INPUT_FILE}
+    ${filtered}=    Create List
+
+    FOR    ${entry}    IN    @{json}
+        ${title}=    Get From Dictionary    ${entry}    title
+        Run Keyword If    '${title}' in @{MY_TITLES}
+        ...    Append To List    ${filtered}    ${entry}
+    END
+
+    Dump Json To File    ${OUTPUT_FILE}    ${filtered}
+    Log To Console    Filtered Data Saved To: ${OUTPUT_FILE}
+
+
+
+#
+# *** Settings ***
+# Library    Collections
+# Library    OperatingSystem
+# Library    JSONLibrary
+
+
+# *** Variables ***
+# ${INPUT_FILE}     ${EXECDIR}/Resources/download/Job_Title.json
+# ${OUTPUT_FILE}    ${EXECDIR}/Resources/download/My_Job_Title.json
+# @{MY_TITLES}      QA Engineer
+
+# *** Test Cases ***
+# Filter My Job Titles From JSON
+#     ${json}=    Load Json From File    ${INPUT_FILE}
+#     ${filtered}=    Create List
+
+#     # FOR    ${entry}    IN    @{json}
+#     #     ${title}=    Get From Dictionary    ${entry}    title
+#     #     Run Keyword If    '${title}' in @{MY_TITLES}
+#     #     ...    Append To List    ${filtered}    ${entry}
+#     # END
+#     FOR    ${entry}    IN    @{json}
+#         ${title}=    Get From List    ${entry}    0
+#         Run Keyword If    '${title}' in @{MY_TITLES}
+#         ...    Append To List    ${filtered}    ${entry}
+#     END
+
+#     Dump Json To File    ${OUTPUT_FILE}    ${filtered}
+#     Log To Console    Filtered Data Saved To: ${OUTPUT_FILE}
+
+
+
+# *** Settings ***
+# Library    SeleniumLibrary
+# Library    Collections
+# Library    OperatingSystem
+# Library    JSONLibrary
+# Library    String
+
+# *** Variables ***
+# ${BROWSER}        Chrome
+# ${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+# ${USERNAME}       Admin
+# ${PASSWORD}       admin123
+# ${JSON_PATH}      ${EXECDIR}/Resources/download/user_data.json
+
+# *** Test Cases ***
+# Extract User Data As Dictionary
+#     Open Browser To Login Page
+#     Login To OrangeHRM
+#     Navigate To Admin Section
+#     ${user_data}=    Get User Data As Dictionary
+#     Save Dictionary To JSON    ${user_data}    ${JSON_PATH}
+#     [Teardown]    Close Browser
+
+# *** Keywords ***
+# Open Browser To Login Page
+#     Open Browser    ${URL}    ${BROWSER}
+#     Maximize Browser Window
+#     Set Selenium Implicit Wait    5
+
+# Login To OrangeHRM
+#     Input Text    name=username    ${USERNAME}
+#     Input Text    name=password    ${PASSWORD}
+#     Click Button    css=button.orangehrm-login-button
+#     Wait Until Page Contains Element    css=.oxd-userdropdown-name    timeout=10
+
+# Navigateto Admin Section
+#     Click Element    css=.oxd-sidepanel-body li:nth-child(1)  # Admin menu
+#     Wait Until Element Is Visible    css=.oxd-table-body    timeout=10
+
+# Get User Data As Dictionary
+#     # Get column headers
+#     ${headers}=    Get WebElements    xpath=//div[@class='oxd-table-header']//div[@role='columnheader']
+#     ${header_texts}=    Create List
+#     FOR    ${header}    IN    @{headers}
+#         ${text}=    Get Text    ${header}
+#         ${clean_text}=    Remove String    ${text}    \n    \t    *  # Clean special chars
+#         Append To List    ${header_texts}    ${clean_text}
+#     END
+
+#     # Get user rows
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_dict}=    Create Dictionary
+
+#     FOR    ${index}    ${row}    IN ENUMERATE    @{rows}
+#         ${cells}=    Get WebElements    xpath=.//div[@role='cell']
+#         ${single_user}=    Create Dictionary
+        
+#         FOR    ${i}    ${cell}    IN ENUMERATE    @{cells}
+#             ${text}=    Get Text    ${cell}
+#             ${clean_text}=    Remove String    ${text}    \n    \t
+#             Set To Dictionary    ${single_user}    ${header_texts[${i}]}    ${clean_text}
+#         END
+        
+#         Set To Dictionary    ${user_dict}    User_${index + 1}    ${single_user}
+#     END
+    
+#     RETURN    ${user_dict}
+
+# Save Dictionary To JSON
+#     [Arguments]    ${data}    ${file_path}
+#     Create Directory    ${EXECDIR}/Resources/download    # Ensure directory exists
+#     ${json_string}=    Evaluate    json.dumps(${data}, indent=4)    json
+#     Create File    ${file_path}    ${json_string}
+#     Log    Successfully saved data to ${file_path}
+
+
+# *** Settings ***
+# Library    SeleniumLibrary
+# Library    Collections
+# Library    OperatingSystem
+# Library    JSONLibrary
+# Library    String
+
+# *** Variables ***
+# ${BROWSER}        Chrome
+# ${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+# ${USERNAME}       Admin
+# ${PASSWORD}       admin123
+# ${JSON_PATH}      ${EXECDIR}/Resources/download/user_data.json
+
+# *** Test Cases ***
+# Extract User Data As Dictionary
+#     Open Browser To Login Page
+#     Login To OrangeHRM
+#     Navigate To Admin Section
+#     ${user_data}=    Get User Data As Dictionary
+#     Save Dictionary To JSON    ${user_data}    ${JSON_PATH}
+#     [Teardown]    Close Browser
+
+# *** Keywords ***
+# Open Browser To Login Page
+#     Open Browser    ${URL}    ${BROWSER}
+#     Maximize Browser Window
+#     Set Selenium Implicit Wait    10
+
+# Login To OrangeHRM
+#     Input Text    name=username    ${USERNAME}
+#     Input Text    name=password    ${PASSWORD}
+#     Click Button    css=button.orangehrm-login-button
+#     Wait Until Page Contains Element    css=.oxd-userdropdown-name    timeout=15
+
+# Navigate To Admin Section
+#     Click Element    css=.oxd-sidepanel li:nth-child(1)  # Admin menu
+#     Wait Until Element Is Visible    css=.oxd-table-body    timeout=15
+
+# Get User Data As Dictionary
+#     # Get VISIBLE column headers (skip hidden ones)
+#     ${headers}=    Get WebElements    xpath=//div[@class='oxd-table-header']//div[@role='columnheader'][not(contains(@class,'hidden'))]
+#     ${header_texts}=    Create List
+#     FOR    ${header}    IN    @{headers}
+#         ${text}=    Get Text    ${header}
+#         ${clean_text}=    Remove String    ${text}    \n    \t    *
+#         ${clean_text}=    Strip String    ${clean_text}
+#         Run Keyword If    "${clean_text}" != ""    Append To List    ${header_texts}    ${clean_text}
+#     END
+#     Log    Detected Headers: ${header_texts}
+
+#     # Get user rows
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_dict}=    Create Dictionary
+
+#     FOR    ${index}    ${row}    IN ENUMERATE    @{rows}
+#         ${cells}=    Get WebElements    xpath=.//div[@role='cell'][not(contains(@class,'hidden'))]
+#         ${single_user}=    Create Dictionary
+        
+#         FOR    ${i}    IN RANGE    ${header_texts.__len__()}
+#             ${cell_xpath}=    Set Variable    .//div[@role='cell'][${i+1}]
+#             ${cell_exists}=    Run Keyword And Return Status    Element Should Be Visible    xpath=${cell_xpath}    ${row}
+#             IF    ${cell_exists}
+#                 ${text}=    Get Text    xpath=${row}${cell_xpath}
+#                 ${clean_text}=    Remove String    ${text}    \n    \t
+#                 ${clean_text}=    Strip String    ${clean_text}
+#                 Set To Dictionary    ${single_user}    ${header_texts[${i}]}    ${clean_text}
+#             ELSE
+#                 Set To Dictionary    ${single_user}    ${header_texts[${i}]}    ${EMPTY}
+#             END
+#         END
+        
+#         Set To Dictionary    ${user_dict}    User_${index + 1}    ${single_user}
+#     END
+    
+#     RETURN    ${user_dict}
+
+# Save Dictionary To JSON
+#     [Arguments]    ${data}    ${file_path}
+#     Create Directory    ${EXECDIR}/Resources/download
+#     ${json_string}=    Evaluate    json.dumps(${data}, indent=4, ensure_ascii=False)    json
+#     Create File    ${file_path}    ${json_string}
+#     Log    Successfully saved data to ${file_path}
+
+
+
+*** Settings ***
+Library    SeleniumLibrary
+Library    Collections
+Library    OperatingSystem
+Library    JSONLibrary
+Library    String
+
+*** Variables ***
+${BROWSER}        Chrome
+${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+${USERNAME}       Admin
+${PASSWORD}       admin123
+${JSON_PATH}      ${EXECDIR}${/}Resources${/}download${/}user_data.json
+
+*** Test Cases ***
+Extract User Data As Dictionary
+    Open Browser To Login Page
+    Login To OrangeHRM
+    Navigate To Admin Section
+    ${user_data}=    Get User Data As Dictionary
+    Save Dictionary To JSON    ${user_data}    ${JSON_PATH}
+    [Teardown]    Close Browser
+
+*** Keywords ***
+Open Browser To Login Page
+    Open Browser    ${URL}    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Implicit Wait    10
+
+Login To OrangeHRM
+    Input Text    name=username    ${USERNAME}
+    Input Text    name=password    ${PASSWORD}
+    Click Button    css=button.orangehrm-login-button
+    Wait Until Page Contains Element    css=.oxd-userdropdown-name    timeout=15
+
+Navigate To Admin Section
+    Wait Until Element Is Visible    css=.oxd-sidepanel    timeout=15
+    Click Element    css=.oxd-sidepanel li:nth-child(1)  # Admin menu
+    Wait Until Element Is Visible    css=.oxd-table-body    timeout=15
+
+Get User Data As Dictionary
+    # Get VISIBLE column headers (skip hidden ones)
+    ${headers}=    Get WebElements    xpath=//div[@class='oxd-table-header']//div[@role='columnheader'][not(contains(@class,'hidden'))]
+    ${header_texts}=    Create List
+    FOR    ${header}    IN    @{headers}
+        ${text}=    Get Text    ${header}
+        ${clean_text}=    Remove String    ${text}    \n    \t    *
+        ${clean_text}=    Strip String    ${clean_text}
+        Run Keyword If    "${clean_text}" != ""    Append To List    ${header_texts}    ${clean_text}
+    END
+    Log    Detected Headers: ${header_texts}
+
+    # Get user rows
+    ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+    ${user_dict}=    Create Dictionary
+
+    FOR    ${index}    ${row}    IN ENUMERATE    @{rows}
+        ${single_user}=    Create Dictionary
+        
+        FOR    ${i}    IN RANGE    len(${header_texts})
+            ${cell_xpath}=    Set Variable    (.//div[@role='cell'])[${i+1}]
+            ${cell_exists}=    Run Keyword And Return Status    Element Should Be Visible    xpath=${cell_xpath}    ${row}
+            IF    ${cell_exists}
+                ${text}=    Get Text    xpath=${cell_xpath}    ${row}
+                ${clean_text}=    Remove String    ${text}    \n    \t
+                ${clean_text}=    Strip String    ${clean_text}
+                Set To Dictionary    ${single_user}    ${header_texts[${i}]}    ${clean_text}
+            ELSE
+                Set To Dictionary    ${single_user}    ${header_texts[${i}]}    ${EMPTY}
+            END
+        END
+        
+        Set To Dictionary    ${user_dict}    User_${index + 1}    ${single_user}
+    END
+    
+    [Return]    ${user_dict}
+
+Save Dictionary To JSON
+    [Arguments]    ${data}    ${file_path}
+    Create Directory    ${file_path.parent}    # Create parent directory if not exists
+    ${json_string}=    Evaluate    json.dumps(${data}, indent=4, ensure_ascii=False)    json
+    Create File    ${file_path}    ${json_string}
+    Log    Successfully saved data to ${file_path}
+
+
+    Get User Table Data
+    [Documentation]    Gets user table data and saves as JSON
+    Wait Until Element Is Visible    xpath=//div[@class='oxd-table-body']    timeout=5
+    ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+    
+    ${user_data_list}=    Create List
+
+    FOR    ${row}    IN    @{rows}
+        ${cell_data}=    Create Dictionary
+        ${job_title}=    Get Text    xpath=.//div[contains(@class, 'oxd-table-cell')][2]
+        ${job_descript}=    Get Text    xpath=.//div[contains(@class, 'oxd-table-cell')][3]
+        ${actions}=    Get Text    xpath=.//div[contains(@class, 'oxd-table-cell')][4]
+        
+        Set To Dictionary    ${cell_data}    Job title=${job_title}
+        Set To Dictionary    ${cell_data}    Job description=${job_descript}
+        Set To Dictionary    ${cell_data}    Actions=${actions}
+        
+        Append To List    ${user_data_list}    ${cell_data}
+        Log    ${cell_data}
+    END
+    Log    ${cell_data}
+    Log    ${user_data_list}
+    # Save Data To JSON    ${user_data_list}    ${EXECDIR}/Resources/download/Job_title_list.json
+
+
+    # Get User Table Data as array object
+    Get User Table Data
+    [Documentation]    Gets user table data and saves as JSON
+    Wait Until Element Is Visible    xpath=//div[@class='oxd-table-body']    timeout=30
+    ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+    
+    ${user_data_list}=    Create List
+    FOR    ${row}    IN RANGE    28
+        ${cell_data}=    Create Dictionary
+        ${job_title}=    Get Text    xpath=(//div[contains(@class, 'oxd-table-cell')][2])[${row+1}]
+        ${job_descript}=    Get Text    xpath=(//div[contains(@class, 'oxd-table-cell')][3])[${row+1}]
+        ${actions}=    Get Text    xpath=(//div[contains(@class, 'oxd-table-cell')][4])[${row+1}]
+        
+        Set To Dictionary    ${cell_data}    Job title=${job_title}
+        Set To Dictionary    ${cell_data}    Job description=${job_descript}
+        Set To Dictionary    ${cell_data}    Actions=${actions}
+        
+        Append To List    ${user_data_list}    ${cell_data}
+    END
+    Log    Collected ${user_data_list}  # Shows complete list
+    Log    ${user_data_list}
+    Save Data To JSON    ${user_data_list}    ${EXECDIR}/Resources/download/Job_title_list.json

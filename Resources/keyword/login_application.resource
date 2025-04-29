@@ -9,7 +9,8 @@ ${VALID PASSWORD}    admin123
 Start Application
     Open Browser    ${URL}    ${BROWSER}
     #Maximize Browser Window
-    Set Selenium Speed   0.5
+    # Set Selenium Speed   0.5
+    Set Selenium Implicit Wait    5
     #Wait Until Element Is Visible  name:username     timeout=5
 
 Close Application
@@ -34,7 +35,7 @@ Submit Credentials
     Click Element    //button[contains(@class,'oxd-button oxd-button--medium')]
 
 Welcome Page Should Be Open
-    Wait Until Element Is Visible  //span[text()='Dashboard']    timeout=15s
+    Wait Until Element Is Visible  //span[text()='Dashboard']    timeout=10
 
 Logout Application
     Click Element  //*[@class='oxd-userdropdown']

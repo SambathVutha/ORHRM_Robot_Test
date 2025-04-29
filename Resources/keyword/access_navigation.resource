@@ -20,13 +20,13 @@ Users Navigation
     Click Element    //span[text()='Users']
 
 Job Navigation
-    Click Element    //span[text()='Job']
+    Click Element    (//i[@class='oxd-icon bi-chevron-down'])[2]
 
 Job Titles Navigation
-    Click Element    //span[text()='Job Titles']
+    Click Element    //a[normalize-space(text())='Job Titles']
 
 Pay Grades Navigation
-    Click Element    //span[text()='Pay Grades']
+    Click Element    //a[normalize-space(text())='Pay Grades']
 
 Employment Status Navigation
     Click Element    //span[text()='Employment Status']

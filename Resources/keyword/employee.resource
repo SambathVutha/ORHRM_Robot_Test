@@ -98,22 +98,42 @@ Date of Birth
     Input Text    xpath=(//i[contains(@class,'oxd-icon bi-calendar')])[2]    ${dob}
 
 
-Get list users
-    Wait Until Element Is Enabled    xpath=//div[@class='oxd-table-body']    timeout=5
-    ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
-    ${user_data}=    Create List
-    FOR    ${row}    IN    @{rows}
-        ${cells}=    Get WebElements    xpath=.//div[@role='cell']
-        # ${cells}=    Execute Javascript    return Array.from(arguments[0].querySelectorAll('div[role="cell"]')).map(cell => cell.innerText);    ${row}
-        ${cell_texts}=    Create List
-        FOR    ${cell}    IN    @{cells}
-            ${text}=    Get Text    ${cell}
-            Append To List    ${cell_texts}    ${text}
-        END
-        # Run Keyword If    '${cell_texts}' != '[]'    Append To List    ${user_data}    ${cell_texts}
-        # Run Keyword If    ${cell_texts}    Append To List    ${user_data}    ${cell_texts}
-        Append To List    ${user_data}    ${cell_texts}
+# Get list users
+#     Wait Until Element Is Enabled    xpath=//div[@class='oxd-table-body']    timeout=5
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_data}=    Create List
+#     FOR    ${row}    IN    @{rows}
+#         ${cells}=    Get WebElements    xpath=.//div[@role='cell']
+#         # ${cells}=    Execute Javascript    return Array.from(arguments[0].querySelectorAll('div[role="cell"]')).map(cell => cell.innerText);    ${row}
+#         ${cell_texts}=    Create List
+#         FOR    ${cell}    IN    @{cells}
+#             ${text}=    Get Text    ${cell}
+#             Append To List    ${cell_texts}    ${text}
+#         END
+#         # Run Keyword If    '${cell_texts}' != '[]'    Append To List    ${user_data}    ${cell_texts}
+#         # Run Keyword If    ${cell_texts}    Append To List    ${user_data}    ${cell_texts}
+#         Append To List    ${user_data}    ${cell_texts}
 
-    END
-    Log    ${user_data}
-    Save Data To JSON    ${user_data}       ${EXECDIR}/Resources/download/Employee_list_users.json
+#     END
+#     Log    ${user_data}
+#     Save Data To JSON    ${user_data}       ${EXECDIR}/Resources/download/Employee_list_users.json
+
+# Get User Table Data
+#     Wait Until Element Is Enabled    xpath=//div[@class='oxd-table-body']    timeout=5
+#     ${rows}=    Get WebElements    xpath=//div[@class='oxd-table-body']//div[@role='row']
+#     ${user_data}=    Create List
+    
+#     FOR    ${row}    IN    @{rows}
+#         ${cells}=    Get WebElements    xpath=.//div[@role='cell']
+#         ${cell_texts}=    Create List
+        
+#         FOR    ${cell}    IN    @{cells}
+#             ${text}=    Get Text    ${cell}
+#             Append To List    ${cell_texts}    ${text}
+#         END
+        
+#         Append To List    ${user_data}    ${cell_texts}
+#     END
+    
+#     Log    ${user_data}
+#     Save Data To JSON    ${user_data}    ${EXECDIR}/Resources/download/Employee_list_users.json
