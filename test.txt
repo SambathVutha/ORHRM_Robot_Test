@@ -685,3 +685,235 @@ Save Dictionary To JSON
     Log    Collected ${user_data_list}  # Shows complete list
     Log    ${user_data_list}
     Save Data To JSON    ${user_data_list}    ${EXECDIR}/Resources/download/Job_title_list.json
+
+
+#Run robot in background
+*** Settings ***
+Library    SeleniumLibrary
+Library    Process
+
+*** Variables ***
+${BROWSER}        chrome
+${URL}            https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+${USERNAME}       Admin
+${PASSWORD}       admin123
+${LOG_FILE}       ${EXECDIR}${/}logs${/}execution.log
+
+*** Test Cases ***
+OrangeHRM Background Login Test
+    [Documentation]    Runs OrangeHRM login in headless mode
+    Start Headless Browser
+    Login To OrangeHRM
+    Verify Successful Login
+    [Teardown]    Close Browser
+
+*** Keywords ***
+Start Headless Browser
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    Call Method    ${options}    add_argument    --headless
+    Call Method    ${options}    add_argument    --disable-gpu
+    Call Method    ${options}    add_argument    --window-size\=1920,1080
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    
+    Create WebDriver    Chrome    options=${options}
+    Go To    ${URL}
+    Set Selenium Implicit Wait    10
+
+Login To OrangeHRM
+    Input Text    name=username    ${USERNAME}
+    Input Text    name=password    ${PASSWORD}
+    Click Button    css=button.orangehrm-login-button
+    Wait Until Page Contains Element    css=.oxd-userdropdown-name    timeout=15
+
+Verify Successful Login
+    ${logged_in}=    Run Keyword And Return Status    Page Should Contain Element    css=.oxd-userdropdown-name
+    Run Keyword If    ${logged_in}    Log To Console    LOGIN SUCCESSFUL
+    ...    ELSE    Fail    Login Failed!
+    Capture Page Screenshot
+
+Compare files
+*** Settings ***
+Library    OperatingSystem
+Library    Collections
+Library    ../Libraries/compare_json_data.py
+
+*** Variables ***
+${ORIGINAL_JSON}    ${EXECDIR}/Resources/download/original_job_titles.json
+${UPDATED_JSON}     ${EXECDIR}/Resources/download/updated_job_titles.json
+${NEW_JOB_TITLE}    Automaton Tester
+
+*** Test Cases ***
+Verify Added Job Title In JSON
+    [Documentation]    Verify only the expected new job was added
+    
+    # Step 1: Compare the JSON files
+    ${differences}=    Compare Job Title Files    ${ORIGINAL_JSON}    ${UPDATED_JSON}
+    Log    Differences found: ${differences}    console=True
+    
+    # Step 2: Verify only 1 new job was added
+    ${added_count}=    Get Length    ${differences['added']}
+    Should Be Equal As Integers    ${added_count}    1    msg=Expected exactly 1 new job title
+    
+    # Step 3: Verify it's the expected job title
+    List Should Contain Value    ${differences['added']}    ${NEW_JOB_TITLE}
+    
+    # Step 4: Verify nothing was removed or modified
+    Should Be Empty    ${differences['removed']}    msg=No jobs should be removed
+    Should Be Empty    ${differences['modified']}    msg=No existing jobs should be modified
+
+*** Keywords ***
+Load And Validate Json
+    [Arguments]    ${file_path}
+    [Documentation]    Load and validate JSON file structure
+    File Should Exist    ${file_path}
+    ${data}=    Get File    ${file_path}
+    ${json}=    Evaluate    json.loads('''${data}''')    json
+    RETURN    ${json}
+
+Compare Job Title Files
+    [Arguments]    ${original_path}    ${updated_path}
+    [Documentation]    Compare job title JSON files and return differences as a dictionary
+    
+    ${original}=    Load And Validate Json    ${original_path}
+    ${updated}=    Load And Validate Json    ${updated_path}
+    
+    # Extract job titles from both JSON files
+    ${original_titles}=    Create List
+    FOR    ${job}    IN    @{original}
+        Append To List    ${original_titles}    ${job['Job Title']}
+    END
+    
+    ${updated_titles}=    Create List
+    FOR    ${job}    IN    @{updated}
+        Append To List    ${updated_titles}    ${job['Job Title']}
+    END
+    
+    # Find added and removed titles
+    ${added}=    Evaluate    list(set(${updated_titles}) - set(${original_titles}))
+    ${removed}=    Evaluate    list(set(${original_titles}) - set(${updated_titles}))
+    
+    # Check for modified entries (this is a placeholder; real logic can be added)
+    ${modified}=    Create List    # Empty list for now; customize if needed
+    
+    &{differences}=    Create Dictionary    added=${added}    removed=${removed}    modified=${modified}
+    
+    RETURN    ${differences}
+    
+
+*** Settings ***
+Library    OperatingSystem
+Library    Collections
+Library    ../Libraries/compare_json_data.py
+
+*** Variables ***
+${ORIGINAL_JSON}    ${EXECDIR}/Resources/download/original_job_titles.json
+${UPDATED_JSON}     ${EXECDIR}/Resources/download/updated_job_titles.json
+${EXPECTED_REMOVED_TITLE}    Automaton Tester
+
+*** Test Cases ***
+Verify Removed Job Title In JSON
+    [Documentation]    Verify that the expected job title was removed and no other changes were made.
+    
+    # Step 1: Compare the JSON files
+    ${differences}=    Compare Job Title Files    ${ORIGINAL_JSON}    ${UPDATED_JSON}
+    Log    Differences found: ${differences}    console=True
+
+    # Step 2: Verify 1 job was removed
+    ${removed_count}=    Get Length    ${differences['removed']}
+    Should Be Equal As Integers    ${removed_count}    1    msg=Expected exactly 1 removed job title
+
+    # Step 3: Verify it's the expected job title
+    List Should Contain Value    ${differences['removed']}    ${EXPECTED_REMOVED_TITLE}
+
+    # Step 4: Verify nothing was added or modified
+    Should Be Empty    ${differences['added']}    msg=No jobs should be added
+    Should Be Empty    ${differences['modified']}    msg=No existing jobs should be modified
+
+*** Keywords ***
+Load And Validate Json
+    [Arguments]    ${file_path}
+    [Documentation]    Load and validate JSON file structure.
+    File Should Exist    ${file_path}
+    ${data}=    Get File    ${file_path}
+    ${json}=    Evaluate    json.loads('''${data}''')    json
+    RETURN    ${json}
+
+Compare Job Title Files
+    [Arguments]    ${original_path}    ${updated_path}
+    [Documentation]    Compare job title JSON files and return differences as a dictionary.
+    
+    ${original}=    Load And Validate Json    ${original_path}
+    ${updated}=    Load And Validate Json    ${updated_path}
+    
+    Log    Original JSON: ${original}    console=True
+    Log    Updated JSON: ${updated}    console=True
+    
+    # Extract job titles from both JSON files
+    ${original_titles}=    Create List
+    FOR    ${job}    IN    @{original}
+        Log    Job item: ${job}    console=True
+        Append To List    ${original_titles}    ${job['Job Titles']}
+    END
+    
+    ${updated_titles}=    Create List
+    FOR    ${job}    IN    @{updated}
+        Log    Job item: ${job}    console=True
+        Append To List    ${updated_titles}    ${job['Job Titles']}
+    END
+    
+    # Find added and removed titles
+    ${added}=    Evaluate    list(set(${updated_titles}) - set(${original_titles}))
+    ${removed}=    Evaluate    list(set(${original_titles}) - set(${updated_titles}))
+    
+    # Placeholder for modified jobs (empty list for now)
+    ${modified}=    Create List
+
+    &{differences}=    Create Dictionary    added=${added}    removed=${removed}    modified=${modified}
+    
+    RETURN    ${differences}
+
+
+*** Settings ***
+Library    OperatingSystem
+Library    Collections
+Library    ../Libraries/compare_json_data.py
+
+*** Variables ***
+${UPDATED_JSON}     ${EXECDIR}/Resources/download/updated_job_titles.json
+${JOB_TITLE_TO_CHECK}    Automaton Tester01
+
+*** Test Cases ***
+Check If Job Title Was Added
+    [Documentation]    Check if a specific job title is present in the updated JSON file and log the result.
+    
+    # Step 1: Load the JSON file
+    ${job_titles}=    Get All Job Titles    ${UPDATED_JSON}
+    Log    All job titles: ${job_titles}    console=True
+
+    # Step 2: Check if the specific title is in the list
+    Run Keyword If    '${JOB_TITLE_TO_CHECK}' in ${job_titles}
+    ...    Log    '${JOB_TITLE_TO_CHECK}' was added successfully.    console=True
+    ...  ELSE
+    ...    Log    '${JOB_TITLE_TO_CHECK}' was NOT found in the updated JSON.    console=True
+
+*** Keywords ***
+Load And Validate Json
+    [Arguments]    ${file_path}
+    [Documentation]    Load and validate JSON file structure.
+    File Should Exist    ${file_path}
+    ${data}=    Get File    ${file_path}
+    ${json}=    Evaluate    json.loads('''${data}''')    json
+    RETURN    ${json}
+
+Get All Job Titles
+    [Arguments]    ${json_file}
+    [Documentation]    Extracts a list of job titles from the JSON file.
+    ${json_data}=    Load And Validate Json    ${json_file}
+    ${titles}=    Create List
+    FOR    ${job}    IN    @{json_data}
+        Append To List    ${titles}    ${job['Job Titles']}
+    END
+    RETURN    ${titles}
+
+

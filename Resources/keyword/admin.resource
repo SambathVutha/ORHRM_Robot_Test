@@ -2,7 +2,7 @@
 Library    SeleniumLibrary
 Library    ../../.venv/Lib/site-packages/robot/libraries/String.py
 Resource    access_navigation.resource
-Library    ../../Library/SaveToFile.py
+Library    ../../Libraries/SaveToFile.py
 Library    ../.venv/Lib/site-packages/robot/libraries/Collections.py
 
 *** Variables ***
@@ -18,6 +18,7 @@ ${job_descript}
 ${UPLOAD_FILE}
 ${note}
 ${save success}
+${emp_status}
 
 
 *** Keywords ***
@@ -182,3 +183,48 @@ Save button pay grades
 
 Save success pay grades
     Wait Until Element Is Visible    xpath=//div[contains(., 'Successfully Saved')]    timeout=10
+
+# Employee status
+Button Add Employment Status
+    Click Element    xpath=//button[contains(.,'Add')]
+
+Input Employment Status
+    [Arguments]    ${status}
+    Input Text    xpath=(//input[@class='oxd-input oxd-input--active'])[2]    ${emp_status}
+
+Save button employment status
+    Click Element    xpath=//button[contains(.,'Save')]
+
+Save success employment status
+    Wait Until Element Is Visible    xpath=//div[contains(., 'Successfully Saved')]    timeout=5
+
+# work shifts
+Button Add Work Shifts
+    Click Element    xpath=//button[contains(.,'Add')]
+
+Input Shift name
+    [Arguments]    ${shift_name}
+    Input Text    xpath=(//input[@class='oxd-input oxd-input--active'])[2]    ${shift_name}
+
+Input from times
+    [Arguments]    ${from_time}
+    Input Text    xpath=(//input[@class='oxd-input oxd-input--active'])[3]    ${from_time}
+
+Input to times
+    [Arguments]    ${to_time}
+    Wait Until Element Is Enabled    xpath=(//input[@class='oxd-input oxd-input--active'])[4]    timeout=5
+    Input Text    xpath=(//input[@class='oxd-input oxd-input--active'])[4]    ${to_time}
+
+Input assigned employee
+    [Arguments]    ${assigned_emp}
+    Input Text    xpath=(//input[@class='oxd-input oxd-input--active'])[5]    ${assigned_emp}
+    Wait Until Element Is Enabled    xpath=//div[@class='oxd-autocomplete-option']    timeout=5
+    Click Element    xpath=//div[@class='oxd-autocomplete-option']
+    # Press Keys    xpath=//input[@placeholder='Type for hints...']   CONTROL+a    BACKSPACE    ${assigned_emp}
+    # Press Keys    xpath=//input[@placeholder='Type for hints...']   ${assigned_emp}    RETURN
+
+Save button work shifts
+    Click Element    xpath=//button[contains(.,'Save')]
+
+Save success work shifts
+    Wait Until Element Is Visible    xpath=//div[contains(., 'Successfully Saved')]    timeout=5

@@ -6,7 +6,7 @@ cmd run robot
 # robot keyword is used to execute the robot framework tests.
 
 
-- Focus CTRL + Shift + p
+- Focus: CTRL + Shift + p
 
 
 
@@ -20,3 +20,10 @@ python -m venv .venv
 .venv\Scripts\activate.bat
 pip install robotframework
 robot --version
+
+==========================
+When install we need to access to .venv
+==========================
+.\.venv\Scripts\activate
+
+

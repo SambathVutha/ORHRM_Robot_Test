@@ -1,80 +1,309 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.2.2 (Python 3.12.0 on win32)" generated="2025-04-29T09:46:03.138981" rpa="false" schemaversion="5">
-<suite id="s1" name="OHRM project" source="C:\Python312\Robot_Framework\OHRM_project">
-<suite id="s1-s1" name="Tests" source="C:\Python312\Robot_Framework\OHRM_project\Tests">
-<suite id="s1-s1-s1" name="Testing 01" source="C:\Python312\Robot_Framework\OHRM_project\Tests\Testing_01.robot">
-<test id="s1-s1-s1-t1" name="OrangeHRM Background Login Test" line="13">
-<kw name="Start Background Login Process">
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-04-29T09:46:03.525797" level="INFO">${chrome_options} = &lt;selenium.webdriver.chrome.options.Options object at 0x0000024082A7C800&gt;</msg>
-<var>${chrome_options}</var>
-<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
-<arg>sys</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-04-29T09:46:03.524800" elapsed="0.000997"/>
-</kw>
-<kw name="Call Method" owner="BuiltIn">
-<arg>${chrome_options}</arg>
-<arg>add_argument</arg>
-<arg>--headless</arg>
-<doc>Calls the named method of the given object with the provided arguments.</doc>
-<status status="PASS" start="2025-04-29T09:46:03.526793" elapsed="0.000000"/>
-</kw>
-<kw name="Call Method" owner="BuiltIn">
-<arg>${chrome_options}</arg>
-<arg>add_argument</arg>
-<arg>--disable-gpu</arg>
-<doc>Calls the named method of the given object with the provided arguments.</doc>
-<status status="PASS" start="2025-04-29T09:46:03.526793" elapsed="0.000996"/>
-</kw>
-<kw name="Call Method" owner="BuiltIn">
-<arg>${chrome_options}</arg>
-<arg>add_argument</arg>
-<arg>--window-size\=1920,1080</arg>
-<doc>Calls the named method of the given object with the provided arguments.</doc>
-<status status="PASS" start="2025-04-29T09:46:03.527789" elapsed="0.000000"/>
-</kw>
-<kw name="Call Method" owner="BuiltIn">
-<arg>${chrome_options}</arg>
-<arg>add_argument</arg>
-<arg>--no-sandbox</arg>
-<doc>Calls the named method of the given object with the provided arguments.</doc>
-<status status="PASS" start="2025-04-29T09:46:03.527789" elapsed="0.001026"/>
-</kw>
-<kw name="Call Method" owner="BuiltIn">
-<arg>${chrome_options}</arg>
-<arg>add_argument</arg>
-<arg>--disable-dev-shm-usage</arg>
-<doc>Calls the named method of the given object with the provided arguments.</doc>
-<status status="PASS" start="2025-04-29T09:46:03.528815" elapsed="0.000000"/>
-</kw>
-<kw name="Create Webdriver" owner="SeleniumLibrary">
-<msg time="2025-04-29T09:46:03.529814" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
-<msg time="2025-04-29T09:46:03.529814" level="INFO">Cannot capture screenshot because no browser is open.</msg>
-<msg time="2025-04-29T09:46:03.529814" level="FAIL">TypeError: WebDriver.__init__() got an unexpected keyword argument 'chrome_options'</msg>
-<arg>Chrome</arg>
-<arg>chrome_options=${chrome_options}</arg>
-<doc>Creates an instance of Selenium WebDriver.</doc>
-<status status="FAIL" start="2025-04-29T09:46:03.528815" elapsed="0.003964">TypeError: WebDriver.__init__() got an unexpected keyword argument 'chrome_options'</status>
-</kw>
-<kw name="Go To" owner="SeleniumLibrary">
+<robot generator="Robot 7.2.2 (Python 3.12.0 on win32)" generated="2025-05-12T16:33:46.335033" rpa="false" schemaversion="5">
+<suite id="s1" name="punch In Out" source="C:\Python312\Robot_Framework\OHRM_project\Tests\time\punch_In_Out.robot">
+<kw name="Start Application" owner="login_application" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:46.661140" level="INFO">Opening browser 'Chrome' to base url 'https://opensource-demo.orangehrmlive.com/'.</msg>
 <arg>${URL}</arg>
-<doc>Navigates the current browser window to the provided ``url``.</doc>
-<status status="NOT RUN" start="2025-04-29T09:46:03.533773" elapsed="0.000000"/>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-05-12T16:33:46.661140" elapsed="5.359646"/>
 </kw>
-<status status="FAIL" start="2025-04-29T09:46:03.523802" elapsed="0.009971">TypeError: WebDriver.__init__() got an unexpected keyword argument 'chrome_options'</status>
+<kw name="Set Selenium Implicit Wait" owner="SeleniumLibrary">
+<arg>5</arg>
+<doc>Sets the implicit wait value used by Selenium.</doc>
+<status status="PASS" start="2025-05-12T16:33:52.020786" elapsed="0.003988"/>
 </kw>
-<kw name="Verify Successful Login">
-<status status="NOT RUN" start="2025-04-29T09:46:03.533773" elapsed="0.001026"/>
+<status status="PASS" start="2025-05-12T16:33:46.661140" elapsed="5.363634"/>
 </kw>
-<doc>Runs OrangeHRM login in headless mode</doc>
-<status status="FAIL" start="2025-04-29T09:46:03.521802" elapsed="0.012997">TypeError: WebDriver.__init__() got an unexpected keyword argument 'chrome_options'</status>
+<test id="s1-t1" name="Add Punch In Out" line="14">
+<kw name="Validate Login Page" owner="login_application">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>name:username</arg>
+<arg>timeout=5</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-05-12T16:33:52.025771" elapsed="0.633607"/>
+</kw>
+<kw name="Input Username" owner="login_application">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:52.660366" level="INFO">Typing text 'Admin' into text field 'name: username'.</msg>
+<arg>name: username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-05-12T16:33:52.660366" elapsed="0.087767"/>
+</kw>
+<arg>${VALID USER}</arg>
+<status status="PASS" start="2025-05-12T16:33:52.659378" elapsed="0.089755"/>
+</kw>
+<kw name="Input Psswords" owner="login_application">
+<kw name="Input Password" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:52.750130" level="INFO">Typing password into text field 'name: password'.</msg>
+<msg time="2025-05-12T16:33:52.792019" level="INFO">Temporally setting log level to: NONE</msg>
+<arg>name: password</arg>
+<arg>${password}</arg>
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-05-12T16:33:52.749133" elapsed="0.107712"/>
+</kw>
+<arg>${VALID PASSWORD}</arg>
+<status status="PASS" start="2025-05-12T16:33:52.749133" elapsed="0.107712"/>
+</kw>
+<kw name="Submit Credentials" owner="login_application">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:52.857844" level="INFO">Clicking element '//button[contains(@class,'oxd-button oxd-button--medium')]'.</msg>
+<arg>//button[contains(@class,'oxd-button oxd-button--medium')]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-05-12T16:33:52.857844" elapsed="0.086768"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:52.856845" elapsed="0.087767"/>
+</kw>
+<kw name="Welcome Page Should Be Open" owner="login_application">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>//span[text()='Dashboard']</arg>
+<arg>timeout=10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-05-12T16:33:52.945610" elapsed="1.879473"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:52.944612" elapsed="1.880471"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:52.024774" elapsed="2.800309"/>
+</kw>
+<kw name="Punch In Out">
+<kw name="Navigation time">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:54.826051" level="INFO">Clicking element 'xpath=//span[text()='Time']'.</msg>
+<arg>xpath=//span[text()='Time']</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-05-12T16:33:54.826051" elapsed="1.279250"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:54.825083" elapsed="1.280218"/>
+</kw>
+<kw name="Navigation Attendance">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:56.108302" level="INFO">Clicking element 'xpath=(//i[@class='oxd-icon bi-chevron-down'])[2]'.</msg>
+<arg>xpath=(//i[@class='oxd-icon bi-chevron-down'])[2]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-05-12T16:33:56.107302" elapsed="0.525130"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:56.105301" elapsed="0.528155"/>
+</kw>
+<kw name="Sub Navigation Punch In/Out">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:56.633456" level="INFO">Clicking element 'xpath=//a[normalize-space(text())='Punch In/Out']'.</msg>
+<arg>xpath=//a[normalize-space(text())='Punch In/Out']</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-05-12T16:33:56.633456" elapsed="0.650683"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:56.633456" elapsed="0.651681"/>
+</kw>
+<kw name="Input date">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//input[@placeholder='yyyy-dd-mm']</arg>
+<arg>timeout=5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-05-12T16:33:57.285137" elapsed="0.449746"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-05-12T16:33:57.734883" level="INFO">Clicking element 'xpath=//input[@placeholder='yyyy-dd-mm']'.</msg>
+<msg time="2025-05-12T16:33:58.393604" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-32.png"&gt;&lt;img src="selenium-screenshot-32.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-05-12T16:33:58.394610" level="FAIL">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=136.0.7103.93); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF60D00A145+76773]
+	GetHandleVerifier [0x00007FF60D00A1A0+76864]
+	(No symbol) [0x00007FF60CDC8F7A]
+	(No symbol) [0x00007FF60CDD0978]
+	(No symbol) [0x00007FF60CDD39EC]
+	(No symbol) [0x00007FF60CDD3ABF]
+	(No symbol) [0x00007FF60CE272FB]
+	(No symbol) [0x00007FF60CE24DD2]
+	(No symbol) [0x00007FF60CE21E71]
+	(No symbol) [0x00007FF60CE20D71]
+	(No symbol) [0x00007FF60CE12444]
+	(No symbol) [0x00007FF60CE4735A]
+	(No symbol) [0x00007FF60CE11CF6]
+	(No symbol) [0x00007FF60CE47570]
+	(No symbol) [0x00007FF60CE6F0CF]
+	(No symbol) [0x00007FF60CE47133]
+	(No symbol) [0x00007FF60CE104D1]
+	(No symbol) [0x00007FF60CE11263]
+	GetHandleVerifier [0x00007FF60D2CA8ED+2962317]
+	GetHandleVerifier [0x00007FF60D2C4EC2+2939234]
+	GetHandleVerifier [0x00007FF60D2E2FF3+3062419]
+	GetHandleVerifier [0x00007FF60D024B9A+185914]
+	GetHandleVerifier [0x00007FF60D02C78F+217647]
+	GetHandleVerifier [0x00007FF60D012A44+111844]
+	GetHandleVerifier [0x00007FF60D012BF2+112274]
+	GetHandleVerifier [0x00007FF60CFF8A79+5401]
+	BaseThreadInitThunk [0x00007FFF59E87374+20]
+	RtlUserThreadStart [0x00007FFF5A07CC91+33]
+</msg>
+<arg>xpath=//input[@placeholder='yyyy-dd-mm']</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="FAIL" start="2025-05-12T16:33:57.734883" elapsed="0.663708">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=136.0.7103.93); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF60D00A145+76773]
+	GetHandleVerifier [0x00007FF60D00A1A0+76864]
+	(No symbol) [0x00007FF60CDC8F7A]
+	(No symbol) [0x00007FF60CDD0978]
+	(No symbol) [0x00007FF60CDD39EC]
+	(No symbol) [0x00007FF60CDD3ABF]
+	(No symbol) [0x00007FF60CE272FB]
+	(No symbol) [0x00007FF60CE24DD2]
+	(No symbol) [0x00007FF60CE21E71]
+	(No symbol) [0x00007FF60CE20D71]
+	(No symbol) [0x00007FF60CE12444]
+	(No symbol) [0x00007FF60CE4735A]
+	(No symbol) [0x00007FF60CE11CF6]
+	(No symbol) [0x00007FF60CE47570]
+	(No symbol) [0x00007FF60CE6F0CF]
+	(No symbol) [0x00007FF60CE47133]
+	(No symbol) [0x00007FF60CE104D1]
+	(No symbol) [0x00007FF60CE11263]
+	GetHandleVerifier [0x00007FF60D2CA8ED+2962317]
+	GetHandleVerifier [0x00007FF60D2C4EC2+2939234]
+	GetHandleVerifier [0x00007FF60D2E2FF3+3062419]
+	GetHandleVerifier [0x00007FF60D024B9A+185914]
+	GetHandleVerifier [0x00007FF60D02C78F+217647]
+	GetHandleVerifier [0x00007FF60D012A44+111844]
+	GetHandleVerifier [0x00007FF60D012BF2+112274]
+	GetHandleVerifier [0x00007FF60CFF8A79+5401]
+	BaseThreadInitThunk [0x00007FFF59E87374+20]
+	RtlUserThreadStart [0x00007FFF5A07CC91+33]
+</status>
+</kw>
+<kw name="Press Keys" owner="SeleniumLibrary">
+<arg>xpath=//input[@placeholder='yyyy-dd-mm']</arg>
+<arg>${date}</arg>
+<arg>ENTER</arg>
+<doc>Simulates the user pressing key(s) to an element or on the active browser.</doc>
+<status status="NOT RUN" start="2025-05-12T16:33:58.399616" elapsed="0.000000"/>
+</kw>
+<arg>${date}</arg>
+<status status="FAIL" start="2025-05-12T16:33:57.285137" elapsed="1.114479">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=136.0.7103.93); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF60D00A145+76773]
+	GetHandleVerifier [0x00007FF60D00A1A0+76864]
+	(No symbol) [0x00007FF60CDC8F7A]
+	(No symbol) [0x00007FF60CDD0978]
+	(No symbol) [0x00007FF60CDD39EC]
+	(No symbol) [0x00007FF60CDD3ABF]
+	(No symbol) [0x00007FF60CE272FB]
+	(No symbol) [0x00007FF60CE24DD2]
+	(No symbol) [0x00007FF60CE21E71]
+	(No symbol) [0x00007FF60CE20D71]
+	(No symbol) [0x00007FF60CE12444]
+	(No symbol) [0x00007FF60CE4735A]
+	(No symbol) [0x00007FF60CE11CF6]
+	(No symbol) [0x00007FF60CE47570]
+	(No symbol) [0x00007FF60CE6F0CF]
+	(No symbol) [0x00007FF60CE47133]
+	(No symbol) [0x00007FF60CE104D1]
+	(No symbol) [0x00007FF60CE11263]
+	GetHandleVerifier [0x00007FF60D2CA8ED+2962317]
+	GetHandleVerifier [0x00007FF60D2C4EC2+2939234]
+	GetHandleVerifier [0x00007FF60D2E2FF3+3062419]
+	GetHandleVerifier [0x00007FF60D024B9A+185914]
+	GetHandleVerifier [0x00007FF60D02C78F+217647]
+	GetHandleVerifier [0x00007FF60D012A44+111844]
+	GetHandleVerifier [0x00007FF60D012BF2+112274]
+	GetHandleVerifier [0x00007FF60CFF8A79+5401]
+	BaseThreadInitThunk [0x00007FFF59E87374+20]
+	RtlUserThreadStart [0x00007FFF5A07CC91+33]
+</status>
+</kw>
+<kw name="Input time">
+<arg>${time}</arg>
+<status status="NOT RUN" start="2025-05-12T16:33:58.399616" elapsed="0.000000"/>
+</kw>
+<kw name="Input Note">
+<arg>${note}</arg>
+<status status="NOT RUN" start="2025-05-12T16:33:58.399616" elapsed="0.000000"/>
+</kw>
+<kw name="Button In">
+<status status="NOT RUN" start="2025-05-12T16:33:58.399616" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2025-05-12T16:33:54.825083" elapsed="3.574533">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=136.0.7103.93); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF60D00A145+76773]
+	GetHandleVerifier [0x00007FF60D00A1A0+76864]
+	(No symbol) [0x00007FF60CDC8F7A]
+	(No symbol) [0x00007FF60CDD0978]
+	(No symbol) [0x00007FF60CDD39EC]
+	(No symbol) [0x00007FF60CDD3ABF]
+	(No symbol) [0x00007FF60CE272FB]
+	(No symbol) [0x00007FF60CE24DD2]
+	(No symbol) [0x00007FF60CE21E71]
+	(No symbol) [0x00007FF60CE20D71]
+	(No symbol) [0x00007FF60CE12444]
+	(No symbol) [0x00007FF60CE4735A]
+	(No symbol) [0x00007FF60CE11CF6]
+	(No symbol) [0x00007FF60CE47570]
+	(No symbol) [0x00007FF60CE6F0CF]
+	(No symbol) [0x00007FF60CE47133]
+	(No symbol) [0x00007FF60CE104D1]
+	(No symbol) [0x00007FF60CE11263]
+	GetHandleVerifier [0x00007FF60D2CA8ED+2962317]
+	GetHandleVerifier [0x00007FF60D2C4EC2+2939234]
+	GetHandleVerifier [0x00007FF60D2E2FF3+3062419]
+	GetHandleVerifier [0x00007FF60D024B9A+185914]
+	GetHandleVerifier [0x00007FF60D02C78F+217647]
+	GetHandleVerifier [0x00007FF60D012A44+111844]
+	GetHandleVerifier [0x00007FF60D012BF2+112274]
+	GetHandleVerifier [0x00007FF60CFF8A79+5401]
+	BaseThreadInitThunk [0x00007FFF59E87374+20]
+	RtlUserThreadStart [0x00007FFF5A07CC91+33]
+</status>
+</kw>
+<kw name="Logout Application" owner="login_application">
+<status status="NOT RUN" start="2025-05-12T16:33:58.400586" elapsed="0.000000"/>
+</kw>
+<kw name="Close Application" owner="login_application">
+<status status="NOT RUN" start="2025-05-12T16:33:58.400586" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2025-05-12T16:33:52.024774" elapsed="6.375812">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=136.0.7103.93); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF60D00A145+76773]
+	GetHandleVerifier [0x00007FF60D00A1A0+76864]
+	(No symbol) [0x00007FF60CDC8F7A]
+	(No symbol) [0x00007FF60CDD0978]
+	(No symbol) [0x00007FF60CDD39EC]
+	(No symbol) [0x00007FF60CDD3ABF]
+	(No symbol) [0x00007FF60CE272FB]
+	(No symbol) [0x00007FF60CE24DD2]
+	(No symbol) [0x00007FF60CE21E71]
+	(No symbol) [0x00007FF60CE20D71]
+	(No symbol) [0x00007FF60CE12444]
+	(No symbol) [0x00007FF60CE4735A]
+	(No symbol) [0x00007FF60CE11CF6]
+	(No symbol) [0x00007FF60CE47570]
+	(No symbol) [0x00007FF60CE6F0CF]
+	(No symbol) [0x00007FF60CE47133]
+	(No symbol) [0x00007FF60CE104D1]
+	(No symbol) [0x00007FF60CE11263]
+	GetHandleVerifier [0x00007FF60D2CA8ED+2962317]
+	GetHandleVerifier [0x00007FF60D2C4EC2+2939234]
+	GetHandleVerifier [0x00007FF60D2E2FF3+3062419]
+	GetHandleVerifier [0x00007FF60D024B9A+185914]
+	GetHandleVerifier [0x00007FF60D02C78F+217647]
+	GetHandleVerifier [0x00007FF60D012A44+111844]
+	GetHandleVerifier [0x00007FF60D012BF2+112274]
+	GetHandleVerifier [0x00007FF60CFF8A79+5401]
+	BaseThreadInitThunk [0x00007FFF59E87374+20]
+	RtlUserThreadStart [0x00007FFF5A07CC91+33]
+</status>
 </test>
-<status status="FAIL" start="2025-04-29T09:46:03.173168" elapsed="0.362601"/>
-</suite>
-<status status="FAIL" start="2025-04-29T09:46:03.170172" elapsed="0.367592"/>
-</suite>
-<status status="FAIL" start="2025-04-29T09:46:03.146991" elapsed="0.392773"/>
+<kw name="Close Application" owner="login_application" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-05-12T16:33:58.403588" elapsed="2.289153"/>
+</kw>
+<status status="PASS" start="2025-05-12T16:33:58.403588" elapsed="2.290150"/>
+</kw>
+<status status="FAIL" start="2025-05-12T16:33:46.336003" elapsed="14.357735"/>
 </suite>
 <statistics>
 <total>
@@ -83,9 +312,7 @@
 <tag>
 </tag>
 <suite>
-<stat name="OHRM project" id="s1" pass="0" fail="1" skip="0">OHRM project</stat>
-<stat name="Tests" id="s1-s1" pass="0" fail="1" skip="0">OHRM project.Tests</stat>
-<stat name="Testing 01" id="s1-s1-s1" pass="0" fail="1" skip="0">OHRM project.Tests.Testing 01</stat>
+<stat name="punch In Out" id="s1" pass="0" fail="1" skip="0">punch In Out</stat>
 </suite>
 </statistics>
 <errors>

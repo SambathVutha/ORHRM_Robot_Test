@@ -29,16 +29,19 @@ Pay Grades Navigation
     Click Element    //a[normalize-space(text())='Pay Grades']
 
 Employment Status Navigation
-    Click Element    //span[text()='Employment Status']
+    Click Element    //a[normalize-space(text())='Employment Status']
 
 Job Categories Navigation
     Click Element    //span[text()='Job Categories']
 
 Work Shifts Navigation
-    Click Element    //span[text()='Work Shifts']
+    Click Element    //a[normalize-space(text())='Work Shifts']
 
 Organization Navigation
-    Click Element    //span[text()='Organization']
+    Click Element    (//i[@class='oxd-icon bi-chevron-down'])[3]
+
+Locations Navigation
+    Click Element    //a[normalize-space(text())='Locations']
 
 
 

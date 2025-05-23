@@ -1,0 +1,38 @@
+[
+    {
+        "": "",
+        "Name": "Canadian Regional HQ",
+        "City": "Ottawa",
+        "Country": "Canada",
+        "Phone": "Canada",
+        "Number of Employees": "0",
+        "Actions": ""
+    },
+    {
+        "": "",
+        "Name": "HQ - CA, USA",
+        "City": "California",
+        "Country": "United States",
+        "Phone": "United States",
+        "Number of Employees": "0",
+        "Actions": ""
+    },
+    {
+        "": "",
+        "Name": "New York Sales Office",
+        "City": "New York",
+        "Country": "United States",
+        "Phone": "United States",
+        "Number of Employees": "2",
+        "Actions": ""
+    },
+    {
+        "": "",
+        "Name": "Texas R&D",
+        "City": "Texas",
+        "Country": "United States",
+        "Phone": "United States",
+        "Number of Employees": "4",
+        "Actions": ""
+    }
+]
